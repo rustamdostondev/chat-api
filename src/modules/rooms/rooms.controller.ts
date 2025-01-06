@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
-import { Room } from '@prisma/client';
 import {
   ApiTags,
   ApiOperation,
@@ -18,6 +20,8 @@ import {
   ApiParam,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { User } from '@common/decorators/user.decorator';
+import { PaginationDto } from '@common/dto/pagination.dto';
 
 @ApiTags('rooms')
 @Controller('rooms')
@@ -25,57 +29,44 @@ import {
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
 
-  @Post()
+  @Post('create')
   @ApiOperation({ summary: 'Create a new room' })
-  @ApiResponse({
-    status: 201,
-    description: 'Room has been successfully created.',
-  })
-  @ApiResponse({ status: 400, description: 'Bad Request.' })
-  async createRoom(@Body() createRoomDto: CreateRoomDto): Promise<Room> {
-    return this.roomsService.createRoom(createRoomDto);
+  create(@Body() createRoomDto: CreateRoomDto, @User() user: any) {
+    return this.roomsService.createRoom(createRoomDto, user);
   }
 
-  @Get()
+  @Get('getAll')
   @ApiOperation({ summary: 'Get all rooms' })
-  @ApiResponse({ status: 200, description: 'Return all rooms.' })
-  async getRooms(): Promise<Room[]> {
-    return this.roomsService.getRooms();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.roomsService.getRooms(paginationDto);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a room by id' })
-  @ApiParam({ name: 'id', description: 'Room ID' })
-  @ApiResponse({ status: 200, description: 'Return the room.' })
-  @ApiResponse({ status: 404, description: 'Room not found.' })
-  async getRoomById(@Param('id') id: string): Promise<Room> {
+  @Get('getOne/:id')
+  @ApiOperation({ summary: 'Get room by ID' })
+  @ApiParam({ name: 'id', type: Number })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Room not found',
+  })
+  getRoomById(@Param('id', ParseIntPipe) id: string) {
     return this.roomsService.getRoomById(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a room' })
   @ApiParam({ name: 'id', description: 'Room ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Room has been successfully updated.',
-  })
-  @ApiResponse({ status: 404, description: 'Room not found.' })
   async updateRoom(
     @Param('id') id: string,
     @Body() updateRoomDto: UpdateRoomDto,
-  ): Promise<Room> {
-    return this.roomsService.updateRoom(id, updateRoomDto);
+    @User() user: any,
+  ) {
+    return this.roomsService.updateRoom(id, updateRoomDto, user);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a room' })
   @ApiParam({ name: 'id', description: 'Room ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'Room has been successfully deleted.',
-  })
-  @ApiResponse({ status: 404, description: 'Room not found.' })
-  async deleteRoom(@Param('id') id: string): Promise<Room> {
-    return this.roomsService.deleteRoom(id);
+  async deleteRoom(@Param('id') id: string, @User() user: any) {
+    return this.roomsService.deleteRoom(id, user);
   }
 }

@@ -21,6 +21,8 @@ model Profile {
   Room        Room?         @relation(fields: [roomId], references: [id])
   roomId      String?       @map("room_id") @db.VarChar(24)
 
+  isDeleted Boolean @default(false) @map("is_deleted")
+
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
@@ -40,6 +42,8 @@ model Room {
   name        String        @unique
   profiles    Profile[]
   RoomProfile RoomProfile[]
+
+  isDeleted Boolean @default(false) @map("is_deleted")
 
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
@@ -63,6 +67,8 @@ model RoomProfile {
   room      Room      @relation(fields: [roomId], references: [id])
   messages  Message[]
 
+  isDeleted Boolean @default(false) @map("is_deleted")
+
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
@@ -82,6 +88,8 @@ model Message {
   text          String
   roomProfileId String      @map("room_profile_id") @db.VarChar(24)
   roomProfile   RoomProfile @relation(fields: [roomProfileId], references: [id])
+
+  isDeleted Boolean @default(false) @map("is_deleted")
 
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
