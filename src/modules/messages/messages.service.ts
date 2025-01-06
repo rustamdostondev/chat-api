@@ -84,11 +84,49 @@ export class MessagesService {
     createMessageDto: CreateMessageDto,
     user: any,
   ): Promise<IApiResponse<Message>> {
+    let roomProfile: any;
+
+    if (createMessageDto.roomProfileId) {
+      let exist = await this.prisma.roomProfile.findFirst({
+        where: {
+          id: createMessageDto.roomProfileId,
+          isDeleted: false,
+        },
+      });
+
+      if (!exist) {
+        throw new NotFoundException(
+          `RoomProfile with id "${createMessageDto.roomProfileId}" not found`,
+        );
+      }
+
+      roomProfile = exist;
+    } else {
+      const createRoom = await this.prisma.room.create({
+        data: {
+          id: objectId(),
+          name: 'General',
+          createdAt: new Date(),
+          createdBy: user.id,
+        },
+      });
+
+      roomProfile = await this.prisma.roomProfile.create({
+        data: {
+          id: objectId(),
+          profileId: createMessageDto.roomProfileId,
+          roomId: createRoom.id,
+          createdAt: new Date(),
+          createdBy: user.id,
+        },
+      });
+    }
+
     const data = await this.prisma.message.create({
       data: {
         id: objectId(),
         text: createMessageDto.text,
-        roomProfileId: createMessageDto.roomUserId,
+        roomProfileId: roomProfile.id,
         createdAt: new Date(),
         createdBy: user.id,
       },
