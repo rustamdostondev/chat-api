@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class RoomProfileNotFound implements NestMiddleware {
   constructor(private readonly prisma: PrismaService) {}
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, _res: Response, next: NextFunction) {
     const { id } = req.params;
     const roomProfile = await this.prisma.roomProfile.findFirst({
       where: {

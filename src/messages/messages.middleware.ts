@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class MessageNotFound implements NestMiddleware {
   constructor(private readonly prisma: PrismaService) {}
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: Request, _res: Response, next: NextFunction) {
     const { id } = req.params;
     const message = await this.prisma.message.findFirst({
       where: {
