@@ -14,12 +14,22 @@ datasource db {
 
 model Profile {
   id       String  @id @default(uuid()) @db.VarChar(24)
-  doctorId String? @unique @db.VarChar(24)
-  userId   String? @unique @db.VarChar(24)
+  doctorId String? @unique @map("doctor_id") @db.VarChar(24)
+  userId   String? @unique @map("user_id") @db.VarChar(24)
 
   RoomProfile RoomProfile[]
   Room        Room?         @relation(fields: [roomId], references: [id])
-  roomId      String?       @db.VarChar(24)
+  roomId      String?       @map("room_id") @db.VarChar(24)
+
+  // Timestamps
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  // User IDs
+  deletedBy String? @map("deleted_by") @db.VarChar(24)
+  createdBy String? @map("created_by") @db.VarChar(24)
+  updatedBy String? @map("updated_by") @db.VarChar(24)
 
   @@map("profiles")
   @@schema("chat")
@@ -28,10 +38,18 @@ model Profile {
 model Room {
   id          String        @id @default(uuid()) @db.VarChar(24)
   name        String        @unique
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
   profiles    Profile[]
   RoomProfile RoomProfile[]
+
+  // Timestamps
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  // User IDs
+  deletedBy String? @map("deleted_by") @db.VarChar(24)
+  createdBy String? @map("created_by") @db.VarChar(24)
+  updatedBy String? @map("updated_by") @db.VarChar(24)
 
   @@map("rooms")
   @@schema("chat")
@@ -39,11 +57,21 @@ model Room {
 
 model RoomProfile {
   id        String    @id @default(uuid()) @db.VarChar(24)
-  profileId String    @db.VarChar(24)
-  roomId    String    @db.VarChar(24)
+  profileId String    @map("profile_id") @db.VarChar(24)
+  roomId    String    @map("room_id") @db.VarChar(24)
   profile   Profile   @relation(fields: [profileId], references: [id])
   room      Room      @relation(fields: [roomId], references: [id])
   messages  Message[]
+
+  // Timestamps
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  // User IDs
+  deletedBy String? @map("deleted_by") @db.VarChar(24)
+  createdBy String? @map("created_by") @db.VarChar(24)
+  updatedBy String? @map("updated_by") @db.VarChar(24)
 
   @@map("room_profiles")
   @@schema("chat")
@@ -52,10 +80,18 @@ model RoomProfile {
 model Message {
   id            String      @id @default(uuid()) @db.VarChar(24)
   text          String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  roomProfileId String      @db.VarChar(24)
+  roomProfileId String      @map("room_profile_id") @db.VarChar(24)
   roomProfile   RoomProfile @relation(fields: [roomProfileId], references: [id])
+
+  // Timestamps
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+
+  // User IDs
+  deletedBy String? @map("deleted_by") @db.VarChar(24)
+  createdBy String? @map("created_by") @db.VarChar(24)
+  updatedBy String? @map("updated_by") @db.VarChar(24)
 
   @@map("messages")
   @@schema("chat")
