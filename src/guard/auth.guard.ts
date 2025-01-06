@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN_DOCTOR, ACCESS_TOKEN_USER } from '@env';
 import {
   CanActivate,
   ExecutionContext,
@@ -16,7 +17,6 @@ export class AuthGuard implements CanActivate {
 
     const token = this.extractTokenFromHeader(request);
 
-    const secret = '5b012ae8c559e34373d75bca2d96d82ea238d370';
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -24,14 +24,14 @@ export class AuthGuard implements CanActivate {
     let payload: any;
     try {
       payload = await this.jwtService.verifyAsync(token, {
-        secret: secret,
+        secret: ACCESS_TOKEN_USER,
       });
 
       request['user'] = payload;
     } catch {
       try {
         payload = await this.jwtService.verifyAsync(token, {
-          secret: secret + 'doctor',
+          secret: ACCESS_TOKEN_DOCTOR,
         });
         request['user'] = payload;
       } catch {
