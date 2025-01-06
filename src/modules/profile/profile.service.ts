@@ -24,10 +24,4 @@ export class ProfilesService {
       where: { id },
     });
   }
-
-  async deleteProfile(id: string): Promise<Profile> {
-    return this.prisma.profile.delete({
-      where: { id },
-    });
-  }
 }

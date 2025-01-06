@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ProfilesService } from './profile.service';
 import {
   ApiTags,
@@ -37,17 +37,5 @@ export class ProfilesController {
   @ApiResponse({ status: 404, description: 'User not found.' })
   async getProfileById(@Param('id') id: string): Promise<Profile> {
     return this.profilesService.getProfileById(id);
-  }
-
-  @Delete('deleteOne/:id')
-  @ApiOperation({ summary: 'Delete a user' })
-  @ApiParam({ name: 'id', description: 'User ID' })
-  @ApiResponse({
-    status: 200,
-    description: 'User has been successfully deleted.',
-  })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  async deleteProfile(@Param('id') id: string): Promise<Profile> {
-    return this.profilesService.deleteProfile(id);
   }
 }
