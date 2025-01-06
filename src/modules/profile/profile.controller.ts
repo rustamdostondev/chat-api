@@ -8,7 +8,7 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { Profile } from '@prisma/client';
-import { User } from 'src/decorator/user.decorator';
+import { User } from '@common/decorators/user.decorator';
 
 @ApiTags('profiles')
 @Controller('profiles')

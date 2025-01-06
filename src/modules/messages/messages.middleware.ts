@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware, NotFoundException } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '@modules/prisma/prisma.service';
 
 @Injectable()
 export class MessageNotFound implements NestMiddleware {

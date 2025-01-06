@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { RoomProfilesService } from './room-users.service';
 import { RoomProfilesController } from './room-users.controller';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from '@modules/prisma/prisma.module';
 import { RoomProfileNotFound } from './room-users.middleware';
 
 @Module({

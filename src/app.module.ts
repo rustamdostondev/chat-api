@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from './prisma/prisma.module';
-import { RoomsModule } from './rooms/rooms.module';
-import { RoomUsersModule } from './room-profile/room-users.module';
-import { MessagesModule } from './messages/messages.module';
+import { PrismaModule } from './modules/prisma/prisma.module';
+import { RoomsModule } from './modules/rooms/rooms.module';
+import { RoomUsersModule } from './modules/room-profile/room-users.module';
+import { MessagesModule } from './modules/messages/messages.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guard/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
-import { ProfilesModule } from './profile/profile.module';
+import { ProfilesModule } from './modules/profile/profile.module';
 import { LoggerModule } from '@common/logger/logger.module';
 
 @Module({
