@@ -7,7 +7,6 @@ import {
   ApiParam,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { Profile } from '@prisma/client';
 import { User } from '@common/decorators/user.decorator';
 
 @ApiTags('profiles')
@@ -19,23 +18,21 @@ export class ProfilesController {
   @Get('getMe')
   @ApiOperation({ summary: 'Get current user profile' })
   @ApiResponse({ status: 200, description: 'Return the user profile.' })
-  async getMe(@User() user: any): Promise<Profile> {
-    return user;
+  async getMe(@User() user: any) {
+    return this.profilesService.getMe(user);
   }
 
   @Get('findAll')
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'Return all users.' })
-  async getProfiles(): Promise<Profile[]> {
+  async getProfiles() {
     return this.profilesService.getProfiles();
   }
 
   @Get('getOne/:id')
   @ApiOperation({ summary: 'Get a user by id' })
   @ApiParam({ name: 'id', description: 'User ID' })
-  @ApiResponse({ status: 200, description: 'Return the user.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  async getProfileById(@Param('id') id: string): Promise<Profile> {
+  async getProfileById(@Param('id') id: string) {
     return this.profilesService.getProfileById(id);
   }
 }
