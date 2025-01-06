@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  HttpStatus,
   Query,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -16,7 +15,6 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 import {
   ApiTags,
   ApiOperation,
-  ApiResponse,
   ApiParam,
   ApiBearerAuth,
 } from '@nestjs/swagger';
@@ -44,15 +42,11 @@ export class RoomsController {
   @Get('getOne/:id')
   @ApiOperation({ summary: 'Get room by ID' })
   @ApiParam({ name: 'id', type: Number })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: 'Room not found',
-  })
   getRoomById(@Param('id', ParseIntPipe) id: string) {
     return this.roomsService.getRoomById(id);
   }
 
-  @Patch(':id')
+  @Patch('updateById/:id')
   @ApiOperation({ summary: 'Update a room' })
   @ApiParam({ name: 'id', description: 'Room ID' })
   async updateRoom(
@@ -63,7 +57,7 @@ export class RoomsController {
     return this.roomsService.updateRoom(id, updateRoomDto, user);
   }
 
-  @Delete(':id')
+  @Delete('deleteById/:id')
   @ApiOperation({ summary: 'Delete a room' })
   @ApiParam({ name: 'id', description: 'Room ID' })
   async deleteRoom(@Param('id') id: string, @User() user: any) {
