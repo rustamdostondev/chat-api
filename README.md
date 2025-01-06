@@ -66,3 +66,4 @@ Authentication is not currently required for any endpoints.
 - `POST /messages` - Creates a new message
 - `PATCH /messages/:id` - Updates an existing message by ID
 - `DELETE /messages/:id` - Deletes a message by ID
+# chat-api
