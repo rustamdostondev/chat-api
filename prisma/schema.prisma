@@ -25,13 +25,12 @@ model Profile {
 
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
-
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime? @default(now()) @map("updated_at") @db.Timestamptz
   // User IDs
-  deletedBy String? @map("deleted_by") @db.VarChar(24)
-  createdBy String? @map("created_by") @db.VarChar(24)
-  updatedBy String? @map("updated_by") @db.VarChar(24)
+  deletedBy String?   @map("deleted_by") @db.VarChar(24)
+  createdBy String?   @map("created_by") @db.VarChar(24)
+  updatedBy String?   @map("updated_by") @db.VarChar(24)
 
   @@map("profiles")
   @@schema("chat")
@@ -47,8 +46,8 @@ model Room {
 
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime? @default(now()) @map("updated_at") @db.Timestamptz
 
   // User IDs
   deletedBy String? @map("deleted_by") @db.VarChar(24)
@@ -71,13 +70,12 @@ model RoomProfile {
 
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
-
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime? @default(now()) @map("updated_at") @db.Timestamptz
   // User IDs
-  deletedBy String? @map("deleted_by") @db.VarChar(24)
-  createdBy String? @map("created_by") @db.VarChar(24)
-  updatedBy String? @map("updated_by") @db.VarChar(24)
+  deletedBy String?   @map("deleted_by") @db.VarChar(24)
+  createdBy String?   @map("created_by") @db.VarChar(24)
+  updatedBy String?   @map("updated_by") @db.VarChar(24)
 
   @@map("room_profiles")
   @@schema("chat")
@@ -93,13 +91,12 @@ model Message {
 
   // Timestamps
   deletedAt DateTime? @map("deleted_at") @db.Timestamptz
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamptz
-
+  createdAt DateTime? @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime? @default(now()) @map("updated_at") @db.Timestamptz
   // User IDs
-  deletedBy String? @map("deleted_by") @db.VarChar(24)
-  createdBy String? @map("created_by") @db.VarChar(24)
-  updatedBy String? @map("updated_by") @db.VarChar(24)
+  deletedBy String?   @map("deleted_by") @db.VarChar(24)
+  createdBy String?   @map("created_by") @db.VarChar(24)
+  updatedBy String?   @map("updated_by") @db.VarChar(24)
 
   @@map("messages")
   @@schema("chat")
